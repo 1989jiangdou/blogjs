@@ -1,0 +1,20 @@
+{
+  "name": "blogjs",
+  "version": "1.0.0",
+  "description": "简易个人博客\r 项目启动\r nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1989jiangdou/blogjs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/1989jiangdou/blogjs/issues"
+  },
+  "homepage": "https://github.com/1989jiangdou/blogjs#readme"
+}
