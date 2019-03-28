@@ -1,4 +1,5 @@
 const Router = require('koa-router')
+const user = require('../control/user')
 const router = new Router()
 router.get('/', async ctx=>{
     await ctx.render('index', {
@@ -8,27 +9,34 @@ router.get('/', async ctx=>{
         // }
     })
 })
-// 主要用来处理用户登录 用户注册 
-// router.get('/user/:fy', async ctx=>{
-//     ctx.body = ctx.params.fy
-// })
-// 转化为正则
-    router.get(/^\/user\/(reg|login)/, async ctx =>{
+    // 主要用来处理用户登录 用户注册 
+    // router.get('/user/:fy', async ctx=>{
+    //     ctx.body = ctx.params.fy
+    // })
+    // 转化为正则
+    router.get(/^\/user\/(reg|login)$/, async ctx =>{
         // show 为 true显示注册，false显示登录
-
-        const show = /^reg$/.test(ctx.path)
+        // ctx.path为/user/path或者/user/login
+        const show = /\/reg$/.test(ctx.path)
         await ctx.render('register', {show})
     })
 
+    // 对用户的动作： /user
+    // 登录  /user/login
+    // 注册  /user/reg
+    // 退出  /user/logout
 
-// 对用户的动作： /user
-// 登录  /user/login
-// 注册  /user/reg
-// 退出  /user/logout
+    // 新增用户 post > /user -->新增用户信息
+    // 删除用户 del > /user -->带上需要删除的用户的 id
+    // 修改用户资料
+    // 查询用户信息
 
-// 新增用户 post > /user -->新增用户信息
-// 删除用户 del > /user -->带上需要删除的用户的 id
-// 修改用户资料
-// 查询用户信息
+    router.post('/user/login', async ctx=>{
+       const data = ctx.request.body
+        //把用户名提出来-->上传数据库去查询--->
+    })
+    
+    //注册用户
+    router.post('/user/reg', user.reg)
 
 module.exports = router
