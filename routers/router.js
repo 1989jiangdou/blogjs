@@ -1,7 +1,7 @@
 const Router = require('koa-router')
 const user = require('../control/user')
 const router = new Router()
-router.get('/',async ctx=>{
+router.get('/', async ctx=>{
     await ctx.render('index', {
         title: '假装这是一个正经的title',
         // session: {
