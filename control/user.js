@@ -72,6 +72,24 @@ exports.login = async (ctx) =>{
                status: '密码不正确，登录失败'
            })
        }
+       // 让用户在他的cookie里设置 username password 加密后的密码 权限
+       ctx.cookies.set('username', username, {
+           domain: 'localhost',
+           path: '/',
+           maxAge: 36e5,
+           httpOnly: true, //true 不让客户端访问这个cookie
+           overwrite: false,
+           // signed: true
+       })
+       // 用户在数据库的_id的 值
+       ctx.cookies.set('uid', data[0]._id, {
+            domain: 'localhost',
+            path: '/',
+            maxAge: 36e5,
+            httpOnly: true, //true 不让客户端访问这个cookie
+            overwrite: false,
+            // signed: true  
+       })
        await ctx.render('isOk', {
            status: '登录成功'
        })
