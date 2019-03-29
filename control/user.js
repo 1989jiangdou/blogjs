@@ -49,3 +49,36 @@ exports.reg = async (ctx) => {
         })
     })
 }
+// 用户登录
+exports.login = async (ctx) =>{
+   const user = ctx.request.body
+   const username = user.username
+   const password = user.password 
+   await new Promise((res, rej) => {
+    User.find({username}, (err, data)=>{
+        // 查找数据的过程失败了
+        if(err) return rej(err)
+        if(data.length === 0 ) return rej('用户名不存在')
+        // 用户存在，把用户穿过来的密码和数据库的进行比对
+        if(data[0].password === password){
+            return res(data)
+        }
+        res('')
+    })
+   })
+   .then(async data =>{
+       if(!data){
+           return await ctx.render('isOk', {
+               status: '密码不正确，登录失败'
+           })
+       }
+       await ctx.render('isOk', {
+           status: '登录成功'
+       })
+   })
+   .catch(async err =>{
+       await ctx.render('isOk', {
+           status: '登录失败'
+       })
+   })
+}

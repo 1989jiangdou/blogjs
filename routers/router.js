@@ -1,7 +1,7 @@
 const Router = require('koa-router')
 const user = require('../control/user')
 const router = new Router()
-router.get('/', async ctx=>{
+router.get('/',async ctx=>{
     await ctx.render('index', {
         title: '假装这是一个正经的title',
         // session: {
@@ -30,13 +30,10 @@ router.get('/', async ctx=>{
     // 删除用户 del > /user -->带上需要删除的用户的 id
     // 修改用户资料
     // 查询用户信息
-
-    router.post('/user/login', async ctx=>{
-       const data = ctx.request.body
-        //把用户名提出来-->上传数据库去查询--->
-    })
-    
-    //注册用户
+   
+    // 注册用户
     router.post('/user/reg', user.reg)
+    // 登录用户
+    router.post('/user/login', user.login)
 
 module.exports = router
