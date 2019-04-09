@@ -10,7 +10,7 @@ const session = require('koa-session')
 // 生产koa实例
 const app = new Koa()
 // 注册日志模块
-app.use(logger())
+// app.use(logger())
 
 app.keys = ['我是风雨'];
 // 注册session模块

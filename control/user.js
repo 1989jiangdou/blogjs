@@ -59,10 +59,10 @@ exports.login = async (ctx) =>{
         // 查找数据的过程失败了
         if(err) return rej(err)
         if(data.length === 0 ) return rej('用户名不存在')
-        // 用户存在，把用户穿过来的密码和数据库的进行比对
-        if(data[0].password === password){
+        // 用户存在，把用户传过来的密码和数据库的进行比对
+        if(data[0].password === crypto(password)){
             return res(data)
-        }
+        }      
         res('')
     })
    })
@@ -72,6 +72,7 @@ exports.login = async (ctx) =>{
                status: '密码不正确，登录失败'
            })
        }
+
        // 让用户在他的cookie里设置 username password 加密后的密码 权限
        ctx.cookies.set('username', username, {
            domain: 'localhost',
@@ -79,7 +80,7 @@ exports.login = async (ctx) =>{
            maxAge: 36e5,
            httpOnly: true, //true 不让客户端访问这个cookie
            overwrite: false,
-           // signed: true
+           signed: false
        })
        // 用户在数据库的_id的 值
        ctx.cookies.set('uid', data[0]._id, {
@@ -88,15 +89,26 @@ exports.login = async (ctx) =>{
             maxAge: 36e5,
             httpOnly: true, //true 不让客户端访问这个cookie
             overwrite: false,
-            // signed: true  
+            signed: false
        })
-       await ctx.render('isOk', {
-           status: '登录成功'
-       })
+    //    ctx.session = {
+    //        username,
+    //        uid: data[0]._id
+    //    }
+       
+      await ctx.render('isOk', {
+        status: '登录成功'
+        })
    })
    .catch(async err =>{
        await ctx.render('isOk', {
            status: '登录失败'
        })
    })
+}
+
+// 确定用户的状态，保持用户的状态
+exports.keepLog = async (ctx, next) =>{
+    console.log(ctx.session.isNew)
+    await next()
 }

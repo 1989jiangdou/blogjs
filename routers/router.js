@@ -1,12 +1,9 @@
 const Router = require('koa-router')
 const user = require('../control/user')
 const router = new Router()
-router.get('/', async ctx=>{
+router.get('/', user.keepLog, async ctx=>{
     await ctx.render('index', {
         title: '假装这是一个正经的title',
-        // session: {
-        //     role: 1
-        // }
     })
 })
     // 主要用来处理用户登录 用户注册 
