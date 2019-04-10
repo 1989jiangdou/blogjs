@@ -109,6 +109,26 @@ exports.login = async (ctx) =>{
 
 // 确定用户的状态，保持用户的状态
 exports.keepLog = async (ctx, next) =>{
-    console.log(ctx.session.isNew)
+    if(ctx.session.isNew){// 用户没有登录session没有值为true
+        if(ctx.cookies.get('username')){
+            ctx.session = {
+                username: ctx.cookies.get('username'),
+                password: ctx.cookies.get('password')
+            }
+        }
+
+    }
     await next()
+}
+// 用户退出中间件
+exports.logout = async (ctx) =>{
+    ctx.session = null,
+    ctx.cookies.set('username', null, {
+        maxAge: 0
+    }),
+    ctx.cookies.set('uid', null, {
+        maxAge: 0
+    })
+    // 在后台做重定向到 根  前端重定向为 location.href = '/'
+    ctx.redirect('/')
 }
