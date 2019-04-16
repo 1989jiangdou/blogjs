@@ -93,7 +93,7 @@ block scripts
 
       form.on("submit(send)", (res) => {
         const { tips, title } = res.field
-
+        // getText是获取文本内容，getContent是获取带标签的文本内容
         if(layedit.getText(index).trim().length === 0)return layer.alert("请输入内容")
         
         const data = {

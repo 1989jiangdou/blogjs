@@ -4,7 +4,7 @@ const article = require('../control/article')
 const router = new Router()
 router.get('/', user.keepLog, async ctx => {
     await ctx.render('index', {
-        title: '假装这是一个正经的title',
+        title: '博客实战首页',
         session: ctx.session
     })
 })
@@ -38,4 +38,7 @@ router.post('/user/login', user.login)
 router.get('/user/logout', user.logout)
 // 文章的发表页面
 router.get('/article', user.keepLog, article.addPage )
+// 文章添加页面
+router.post('/article', user.keepLog, article.add)
+
 module.exports = router
