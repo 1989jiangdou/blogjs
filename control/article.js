@@ -22,7 +22,9 @@ exports.add = async ctx =>{
     // 这是用户在登录情况下 post发过来的数据
     const data = ctx.request.body
     // tips title content    author
-    data.author = ctx.session.username
+    // data.author = ctx.session.username
+    data.author = ctx.session.uid
+    
     await new Promise((res, rej) =>{
         new Article(data).save((err, data)=>{
             if(err) return rej(err)

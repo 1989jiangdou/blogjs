@@ -91,10 +91,10 @@ exports.login = async (ctx) =>{
             overwrite: false,
             signed: false
        })
-    //    ctx.session = {
-    //        username,
-    //        uid: data[0]._id
-    //    }
+       ctx.session = {
+           username,
+           uid: data[0]._id
+       }
        
       await ctx.render('isOk', {
         status: '登录成功'
