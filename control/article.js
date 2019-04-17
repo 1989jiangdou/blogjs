@@ -1,5 +1,8 @@
 const {db} = require('../schema/config')
 const ArticleSchema = require('../schema/article')
+// 取用户schema,为了拿到操作users集合的实例对象
+const UserShema = require('../schema/user')
+const User = db.model('users', UserShema)
 //通过db对象创建操作articles数据库的模型对象
 const Article = db.model('articles', ArticleSchema)
 // 返回文章发表页
@@ -44,4 +47,14 @@ exports.add = async ctx =>{
         }
     })
 
+}
+// 获取文章列表页
+exports.getList = async ctx =>{
+    // 查询每篇文章对应的作者的头像
+    // id ctx.params.id
+
+    await ctx.render('index', {
+        session: ctx.session,
+        title: '博客首页'
+    })
 }
