@@ -52,9 +52,28 @@ exports.add = async ctx =>{
 exports.getList = async ctx =>{
     // 查询每篇文章对应的作者的头像
     // id ctx.params.id
-
+    let page = ctx.params.id || 1
+    page--
+    
+    const maxNum = await Article.estimatedDocumentCount((err, num) => err? console.log(err) : num)
+    
+    const artList = await Article
+      .find()
+      .sort('-created')
+      .skip(2 * page)
+      .limit(2)
+      //拿到了5条数据
+      .populate({
+        path: "author",
+        select: '_id username avatar'
+      }) // mongoose 用于连表查询
+      .then(data => data)
+      .catch(err => console.log(err))   
+    
     await ctx.render('index', {
         session: ctx.session,
-        title: '博客首页'
+        title: '博客首页',
+        artList,
+        maxNum
     })
 }
