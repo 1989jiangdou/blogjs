@@ -20,6 +20,7 @@ exports.save = async ctx =>{
     // 用户登录了
     const data = ctx.request.body
     data.from = ctx.session.uid
+    console.log(data)
     const  _comment = new Comment(data)
     await  _comment
     .save()
@@ -28,6 +29,11 @@ exports.save = async ctx =>{
             status: 1,
             msg: '发表成功'
         }
+        Article.update({_id: data.article}, {$inc: {commentNum: +1}},
+        err =>{
+            if(err) return console.log(err)
+            console.log('评论计数器更新成功')
+        })
     })
     .catch(err =>{
         message = {

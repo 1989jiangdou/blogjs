@@ -31,7 +31,7 @@ exports.add = async ctx =>{
     // tips title content    author
     // data.author = ctx.session.username
     data.author = ctx.session.uid
-    
+    data.commentNum = 0
     await new Promise((res, rej) =>{
         new Article(data).save((err, data)=>{
             if(err) return rej(err)
