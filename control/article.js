@@ -5,6 +5,10 @@ const UserShema = require('../schema/user')
 const User = db.model('users', UserShema)
 //通过db对象创建操作articles数据库的模型对象
 const Article = db.model('articles', ArticleSchema)
+//通过db对象创建操作comments数据库的模型对象
+const CommentSchema = require('../schema/comment')
+const Comment = db.model('comments', CommentSchema)
+
 // 返回文章发表页
 exports.addPage = async ctx =>{
     await ctx.render('add-article', {
@@ -76,4 +80,32 @@ exports.getList = async ctx =>{
         artList,
         maxNum
     })
+}
+
+// 获取文章详情页
+exports.details = async ctx =>{
+    // 取动态路由的id
+    const _id = ctx.params.id
+
+    // 查找文章本身数据
+    const article = await Article
+    .findById(_id)
+    .populate('author', 'username')
+    .then(data => data)
+
+    // 查找跟当前文章关联的所有评论
+    const comment = await Comment
+    .find({article: _id})
+    .sort('-created')
+    .populate('from', 'username avatar')
+    .then(data => data)
+    .catch(err => console.log(err))
+
+    await ctx.render('article', {
+        title: article.title,
+        comment,
+        article,
+        session: ctx.session
+    })
+    
 }
